@@ -55,4 +55,32 @@ public class PageMaker {
     public void setDisplayPageNum(int displayPageNum) {
         this.displayPageNum = displayPageNum;
     }
+
+    public int getTotalCount() {
+        return totalCount;
+    }
+
+    public int getStartPage() {
+        return startPage;
+    }
+
+    public int getEndPage() {
+        return endPage;
+    }
+
+    public boolean isPrev() {
+        return prev;
+    }
+
+    public boolean isNext() {
+        return next;
+    }
+
+    public int getDisplayPageNum() {
+        return displayPageNum;
+    }
+
+    public Criteria getCri() {
+        return cri;
+    }
 }

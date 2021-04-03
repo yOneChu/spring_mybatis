@@ -10,4 +10,5 @@ import java.util.List;
 public interface BoardMapper {
     public List<Board> selectAll();
     public List<Board> listCriteria(Criteria criteria);
+    public int selectTotal();
 }

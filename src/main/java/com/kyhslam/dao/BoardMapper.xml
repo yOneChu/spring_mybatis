@@ -14,4 +14,9 @@
         from a_board
         LIMIT #{perPageNum} OFFSET #{pageStart}
     </select>
+
+    <select id="selectTotal" resultType="int">
+        select count(content)
+        from a_board
+    </select>
 </mapper>

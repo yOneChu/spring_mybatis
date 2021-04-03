@@ -23,4 +23,8 @@ public class BoardDao {
         System.out.println("listCriteria");
         return sqlSession.selectList(NAMESPACE + ".listCriteria", criteria);
     }
+
+    public int selectTotal() {
+        return sqlSession.selectOne(NAMESPACE + ".selectTotal");
+    }
 }
