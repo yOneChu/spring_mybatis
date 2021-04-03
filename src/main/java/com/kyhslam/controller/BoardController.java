@@ -4,42 +4,24 @@ import com.kyhslam.dao.BoardDao;
 import com.kyhslam.domain.Board;
 import com.kyhslam.domain.Criteria;
 import com.kyhslam.domain.PageMaker;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-@Slf4j
 @RequiredArgsConstructor
-public class HomeController {
+@Slf4j
+public class BoardController {
 
     private final BoardDao boardDao;
 
-
-    @GetMapping("/hello")
-    public String home(Model model) {
-
-        Criteria criteria = new Criteria();
-        criteria.setPage(2);
-        criteria.setPerPageNum(10);
-
-        List<Board> boards = boardDao.listCriteria(criteria);
-
-        model.addAttribute("boards", boards);
-
-        System.out.println(boards.size());
-        return "hello";
-    }
-
-    @GetMapping("/hello2")
+    @GetMapping("/board/list")
     public String home2(Criteria criteria, Model model) {
         //Criteria criteria = new Criteria();
         criteria.setPage(11);
@@ -59,20 +41,34 @@ public class HomeController {
         return "hello";
     }
 
-    
+
     //페이징 처리 완료
     // 화면에서 페이지버튼 눌렀을때 링크
-    @GetMapping("/listPage")
+    @GetMapping("/board/listPage")
+    //@RequestMapping(value = "/board/listPage", method = RequestMethod.GET)
     public String listPage(@ModelAttribute("cri") Criteria cri, Model model) throws Exception {
-        log.info("listPget :: " + cri.toString());
+        log.info("listPage :: " + cri.toString());
+
+/*        if(errors.hasErrors()){
+            List<ObjectError> elist = errors.getAllErrors();
+            for (ObjectError objectError : elist) {
+                System.out.println("err : " + objectError.getDefaultMessage());
+            }
+
+            log.info("errrrrrrrrrrrrrrr");
+        }*/
         model.addAttribute("boards", boardDao.listCriteria(cri));
 
-        log.info("LISTLISLSI");
+        log.info("cri.getPage :: " + cri.getPage());
+        log.info("cri.getPerPageNum :: " + cri.getPerPageNum());
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCri(cri);
         pageMaker.setTotalCount(boardDao.selectTotal());
+        model.addAttribute("cri", cri);
         model.addAttribute("pageMaker", pageMaker);
+
+        log.info("pageMaker :: " + pageMaker.getCri().getPage());
+        log.info("5555555555555555");
         return "hello";
     }
-
 }

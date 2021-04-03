@@ -1,5 +1,10 @@
 package com.kyhslam.domain;
 
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URLEncoder;
+
 public class PageMaker {
 
     private int totalCount;
@@ -34,6 +39,18 @@ public class PageMaker {
 
         prev = startPage == 1 ? false : true;
         next = endPage * cri.getPerPageNum() >= totalCount ? false : true;
+    }
+
+    public String makeQuery(int page) {
+        UriComponents uriComponents =
+                UriComponentsBuilder.newInstance()
+                .queryParam("page", page)
+                .queryParam("perPageNum", cri.getPerPageNum())
+                .build();
+        // URLEncoder.encode(keyword, "UTF-8");
+        //System.out.println(uriComponents.toUriString());
+        return uriComponents.toUriString();
+        //return URLEncoder.encode(uriComponents., "UTF-8");
     }
 
     public void setStartPage(int startPage) {

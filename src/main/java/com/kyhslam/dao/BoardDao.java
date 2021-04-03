@@ -20,7 +20,6 @@ public class BoardDao {
     }
 
     public List<Board> listCriteria(Criteria criteria) {
-        System.out.println("listCriteria");
         return sqlSession.selectList(NAMESPACE + ".listCriteria", criteria);
     }
 
