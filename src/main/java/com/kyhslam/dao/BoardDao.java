@@ -1,6 +1,7 @@
 package com.kyhslam.dao;
 
 import com.kyhslam.domain.Board;
+import com.kyhslam.domain.Criteria;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,5 +17,10 @@ public class BoardDao {
 
     public List<Board> selectAll(){
         return sqlSession.selectList(NAMESPACE + ".selectAll");
+    }
+
+    public List<Board> listCriteria(Criteria criteria) {
+        System.out.println("listCriteria");
+        return sqlSession.selectList(NAMESPACE + ".listCriteria", criteria);
     }
 }

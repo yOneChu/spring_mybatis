@@ -8,4 +8,10 @@
         SELECT content, writer
         FROM a_board
     </select>
+
+    <select id="listCriteria" resultType="Board">
+        select content, writer
+        from a_board
+        LIMIT #{perPageNum} OFFSET #{pageStart}
+    </select>
 </mapper>
