@@ -88,8 +88,9 @@
                            end="${pageMaker.endPage }" var="idx">
                     <li id="pageView"
                             <c:out value="${pageMaker.cri.page == idx?'class =active':''}"/>>
-                            <a href="${idx}">${idx}</a>
-                            <%--<a id="pageGo" href="${idx}">${idx}</a>--%>
+                            <%--<a href="${idx}">${idx}</a>--%>
+                            <a class="page-link" id="page-link" href="#" onClick="javascript:pageGo(${idx});">${idx}</a>
+
                     </li>
                 </c:forEach>
 
@@ -112,127 +113,33 @@
 <script>
     $(document).ready(function() {
 
-
-        $('.pagination li a').on('click', function(event) {
-            alert('pagination li a');
-
-            /*event.preventDefault(); // 실제화면의 이동을 막는다.
-
-            var targetPage = $(this).attr('href');
-            var jobForm = $('#jobForm');
-
-            console.log('targetPage :: ', targetPage);
-
-            jobForm.find("[name='page']").val(targetPage);
-            jobForm.attr("action", "/board/listPage").attr("method", "get");
-            jobForm.submit();*/
+    }); // end jquery
 
 
-            event.preventDefault(); // 실제화면의 이동을 막는다.
-            var goPage = $(this).attr('href');
-            //var goPage = $('#pageGo').value;
+    function pageGo(nextPage) {
+        console.log('nextPage :: ', nextPage);
+        /*
+        event.preventDefault(); // 실제화면의 이동을 막는다.
+        var targetPage = $(this).attr('href');
+        var jobForm = $('#jobForm');
 
-            var perPageNum = $('#perPageNum').val();
-
-            console.log('goPage :: ', goPage);
-            $.ajax({
-                type: 'Get',
-                dataType: "json",
-
-                url: "/api/pageGo",
-                data: {
-                    "goPage" : goPage,
-                    "perPageNum" : perPageNum
-                },
-                success: function (data) {
-                    console.log('success :: ', data);
-
-                    var boardList = data.boardList;
-
-                    $('tr').remove('#board_content');
-
-                    let str = '';
-                    for(var i=0; i < boardList.length; i++) {
-                        //console.log(boardList[i].board_id);
-                        //console.log(boardList[i].content);
-                        //console.log(boardList[i].writer);
-
-                        str += '<tr id="board_content">'
-                        str += '<td>' + boardList[i].board_id + '/<td>';
-                        str += '<td>' + boardList[i].content + '/<td>';
-                        str += '<td>' + boardList[i].writer + '/<td>';
-                        str += '</td>'
-                    }
-                    $('#content_body').append(str);
+        jobForm.find("[name='page']").val(targetPage);
+        jobForm.attr("action", "/board/listPage").attr("method", "get");
+        jobForm.submit();
+        */
 
 
-                    // 페이징 번호
-                    let prev = data.prev;
-                    let next = data.next;
-                    let startPage = data.startPage;
-                    let endPage = data.endPage;
-
-                    console.log('prev :: ' + prev);
-                    console.log('next :: ' + next);
-                    console.log('startPage :: ' + startPage);
-                    console.log('endPage :: ' + endPage);
-
-
-                    //$('li').remove('.pageview');
-//pagination
-                    $('li').remove('#pageView');
-                    alert('remove');
-                    let strPage = '';
-                    if('prev' == true) {
-                        strPage += '<li><a href=' + (startPage - 1)  + '>&laquo;</a></li>';
-                    }
-
-                    for(var i=startPage; i <= endPage; i++) {
-                        if(goPage == (i)){
-                            strPage += '<li class="active" >';
-                        }else{
-                            strPage += '<li>';
-                        }
-
-                        //strPage += '<li>';
-                        strPage += '<a href='+ i + '>' + (i) + '</a>';
-                        //strPage += '<a href="javascript:pageGo();">' + (i);
-                        //strPage += '<a href="javascript:pageGo('+ i +  ');">' + (i);
-                        strPage += '</li>';
-                    }
-
-                    if(next == true && endPage > 0) {
-                        strPage += '<li><a href=' + (endPage + 1)  + '>&raquo;</a></li>';
-                    }
-
-                    console.log(strPage);
-
-                    $('.pagination').append(strPage);
-                }
-            })
-
-
-        });
-
-    });
-
-
-
-
-//pageGo
-   /* $('#pageGo').on('click', function(event) {
-    //function pageGo(page) {
-
-        alert('click');
-        var page = $('#pageGo').val();
-        console.log(page);
-        var goPage = page; // $(this).attr('href');
-        var perPageNum = $('#perPageNum').val();
-
+        //event.preventDefault(); // 실제화면의 이동을 막는다.
+        var goPage = nextPage; // $('#page-link').val;
         console.log('goPage :: ', goPage);
+
+        var perPageNum = $('#perPageNum').val();
+        console.log('perPageNum :: ', perPageNum);
+
         $.ajax({
             type: 'Get',
             dataType: "json",
+
             url: "/api/pageGo",
             data: {
                 "goPage" : goPage,
@@ -243,6 +150,8 @@
 
                 var boardList = data.boardList;
 
+
+                // 게시물 삭제
                 $('tr').remove('#board_content');
 
                 let str = '';
@@ -252,9 +161,9 @@
                     //console.log(boardList[i].writer);
 
                     str += '<tr id="board_content">'
-                    str += '<td>' + boardList[i].board_id + '/<td>';
-                    str += '<td>' + boardList[i].content + '/<td>';
-                    str += '<td>' + boardList[i].writer + '/<td>';
+                    str += '<td>' + boardList[i].board_id + '</td>';
+                    str += '<td>' + boardList[i].content + '</td>';
+                    str += '<td>' + boardList[i].writer + '</td>';
                     str += '</td>'
                 }
                 $('#content_body').append(str);
@@ -272,37 +181,38 @@
                 console.log('endPage :: ' + endPage);
 
 
-                $('li').remove('.pageview');
-
-                alert('remove');
+                // 페이징 번호 삭제
+                $('li').remove('#pageView');
                 let strPage = '';
-                if('prev' == true) {
-                    strPage += '<li><a href=' + (startPage - 1)  + '>&laquo;</a></li>';
+                if(prev == true) {
+                    strPage += '<li id="pageView">';
+                    strPage += '<a class="page-link" id="page-link" href="#" onClick="javascript:pageGo(' + (startPage - 1) + ');">' + '&laquo;' + '</a>';
+                    strPage += '</li>';
                 }
 
                 for(var i=startPage; i <= endPage; i++) {
                     if(goPage == (i)){
-                        strPage += '<li class="active" >';
+                        strPage += '<li id="pageView" class="active" >';
                     }else{
-                        strPage += '<li>';
+                        strPage += '<li id="pageView">';
                     }
 
-                    strPage += '<a href="javascript:pageGo('+ i +  ');">' + (i);
+                    strPage += '<a class="page-link" id="page-link" href="#" onClick="javascript:pageGo(' + i + ');">' + i + '</a>';
                     strPage += '</li>';
                 }
 
                 if(next == true && endPage > 0) {
-                    strPage += '<li><a href=' + (endPage + 1)  + '>&raquo;</a></li>';
+                    strPage += '<li id="pageView">';
+                    strPage += '<a class="page-link" id="page-link" href="#" onClick="javascript:pageGo(' + (endPage + 1) + ');">' + '&raquo;' + '</a>';
+                    strPage += '</li>';
                 }
 
                 console.log(strPage);
 
-                $('#pagination').append(strPage);
+                $('.pagination').append(strPage);
             }
         })
-
-
-    });*/
+    };
 
 </script>
 

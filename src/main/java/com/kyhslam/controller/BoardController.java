@@ -42,21 +42,13 @@ public class BoardController {
     }
 
 
-    //페이징 처리 완료
+    // 페이징 처리 완료
     // 화면에서 페이지버튼 눌렀을때 링크
     @GetMapping("/board/listPage")
     //@RequestMapping(value = "/board/listPage", method = RequestMethod.GET)
     public String listPage(@ModelAttribute("cri") Criteria cri, Model model) throws Exception {
         log.info("listPage :: " + cri.toString());
 
-/*        if(errors.hasErrors()){
-            List<ObjectError> elist = errors.getAllErrors();
-            for (ObjectError objectError : elist) {
-                System.out.println("err : " + objectError.getDefaultMessage());
-            }
-
-            log.info("errrrrrrrrrrrrrrr");
-        }*/
         model.addAttribute("boards", boardDao.listCriteria(cri));
 
         log.info("cri.getPage :: " + cri.getPage());
