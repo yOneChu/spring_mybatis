@@ -69,6 +69,7 @@ public class BoardController {
 
         log.info("pageMaker :: " + pageMaker.getCri().getPage());
         log.info("5555555555555555");
-        return "hello";
+        //return "hello";
+        return "board";
     }
 }

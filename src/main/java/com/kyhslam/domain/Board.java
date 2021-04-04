@@ -7,6 +7,7 @@ import lombok.Setter;
 
 @Setter @Getter
 public class Board {
+    private String board_id;
     private String writer;
     private String content;
 }

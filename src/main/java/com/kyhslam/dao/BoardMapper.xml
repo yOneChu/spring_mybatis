@@ -5,12 +5,12 @@
 <mapper namespace="com.kyhslam.dao.BoardMapper">
 
     <select id="selectAll" resultType="Board">
-        SELECT content, writer
+        SELECT board_id, content, writer
         FROM a_board
     </select>
 
     <select id="listCriteria" parameterType="int" resultType="Board">
-        select content, writer
+        select board_id, content, writer
         from a_board
         LIMIT #{perPageNum} OFFSET #{pageStart}
     </select>

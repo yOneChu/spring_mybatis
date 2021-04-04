@@ -17,7 +17,7 @@
 %>
 <body>
 
-<h1>Spring Paging</h1>
+<%--<h1>Spring Paging</h1>--%>
 
 <table class="table table-hover">
     <thead>
@@ -28,7 +28,7 @@
     </thead>
 
     <c:forEach var="board" items="${boards}">
-        <tr>
+        <tr id="board_content">
             <td>${board.writer}</td>
             <td>${board.content}</td>
         </tr>
@@ -112,7 +112,8 @@
     });
 
     $('.pagination li a').on('click', function(event) {
-        event.preventDefault();
+        /*
+        event.preventDefault(); // 실제화면의 이동을 막는다.
 
         var targetPage = $(this).attr('href');
         var jobForm = $('#jobForm');
@@ -122,6 +123,30 @@
         jobForm.find("[name='page']").val(targetPage);
         jobForm.attr("action", "/board/listPage").attr("method", "get");
         jobForm.submit();
+        */
+
+        event.preventDefault(); // 실제화면의 이동을 막는다.
+        var goPage = $(this).attr('href');
+        var perPageNum = $('#perPageNum').val();
+
+        console.log('goPage :: ', goPage);
+        $.ajax({
+            type: 'Get',
+            dataType: "json",
+            url: "/api/pageGo",
+            data: {
+                "goPage" : goPage,
+                "perPageNum" : perPageNum
+            },
+            success: function (data) {
+                console.log('success :: ', data);
+
+                $('tr').remove('#board_content');
+
+            }
+        })
+
+
     });
 
 </script>
